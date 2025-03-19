@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+  <title>{{ news.title }} - News Sphere</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+  <!-- Additional CSS Files -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/fontawesome.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.css') }}">
+
+  <style>
+    .news-detail-container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+
+    .news-detail-image {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .news-detail-title {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .news-meta {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .news-category {
+      display: inline-block;
+      padding: 5px 10px;
+      background-color: #f33f3f;
+      color: white;
+      border-radius: 4px;
+      font-size: 14px;
+      margin-right: 10px;
+    }
+
+    .news-date {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .news-source {
+      color: #444;
+      font-weight: 500;
+    }
+
+    .news-content {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #444;
+      margin-bottom: 30px;
+    }
+
+    .action-buttons {
+      margin-top: 30px;
+    }
+
+    .external-link {
+      display: inline-block;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href="{{ url_for('userhome') }}">
+          <h2>News Sphere</h2>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('userhome') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('categorynews') }}">Categories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('viewnewsuser') }}">All News</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('Logout') }}">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Page Content -->
+  <div class="container news-detail-container">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Display success/error messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              {% set alert_class = 'danger' if category == 'error' else category %}
+              <div class="alert alert-{{ alert_class }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <img src="{{ news.image_url }}" alt="{{ news.title }}" class="news-detail-image" onerror="this.src='{{ url_for('static', filename='assets/images/news-placeholder.jpg') }}'">
+
+        <h1 class="news-detail-title">{{ news.title }}</h1>
+
+        <div class="news-meta">
+          <span class="news-category">{{ news.category }}</span>
+
+          {% if news.source_type == 'api' %}
+            <span class="news-source"><i class="fas fa-newspaper"></i> {{ news.source }}</span>
+          {% else %}
+            <span class="news-source"><i class="fas fa-newspaper"></i> Local News</span>
+          {% endif %}
+
+          <span class="news-date float-right">
+            <i class="far fa-calendar-alt"></i>
+            {% if news.source_type == 'api' %}
+              {{ news.date.strftime('%B %d, %Y') }}
+            {% else %}
+              {{ news.date }}
+            {% endif %}
+          </span>
+        </div>
+
+        <div class="news-content">
+          {{ news.content }}
+        </div>
+
+        {% if news.source_type == 'api' and news.url %}
+          <a href="{{ news.url }}" target="_blank" class="external-link filled-button">
+            <i class="fas fa-external-link-alt"></i> Read Original Article
+          </a>
+        {% endif %}
+
+        <div class="action-buttons">
+          <a href="{{ url_for('userhome') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Home
+          </a>
+
+          {% if news.category %}
+            <a href="{{ url_for('getcategory', category=news.category) }}" class="btn btn-primary">
+              <i class="fas fa-list"></i> More from {{ news.category }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="inner-content">
+            <p>Copyright &copy; 2025 News Sphere - All Rights Reserved</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+  <!-- Additional Scripts -->
+  <script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/owl.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/slick.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/isotope.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/accordions.js') }}"></script>
+</body>
+</html>

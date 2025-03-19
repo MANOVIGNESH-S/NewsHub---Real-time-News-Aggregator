@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+  <title>News Sphere - User Dashboard</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Additional CSS Files -->
+  <link rel="stylesheet" href="static/assets/css/fontawesome.css">
+  <link rel="stylesheet" href="static/assets/css/style.css">
+  <link rel="stylesheet" href="static/assets/css/owl.css">
+
+  <style>
+    .news-card {
+      transition: transform 0.3s ease;
+      margin-bottom: 25px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .news-img {
+      height: 200px;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .category-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      background-color: #f33f3f;
+      color: white;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .welcome-section {
+      background-color: #f8f9fa;
+      padding: 30px 0;
+      margin-bottom: 30px;
+      border-radius: 8px;
+    }
+
+    .search-form {
+      margin-bottom: 30px;
+    }
+
+    .news-source {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 5px 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .category-box {
+      background-color: #f33f3f;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .category-box:hover {
+      background-color: #d32f2f;
+      transform: scale(1.05);
+    }
+
+    .category-box a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .news-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .news-date {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .news-desc {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href="{{ url_for('userhome') }}">
+          <h2>News Sphere</h2>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ url_for('userhome') }}">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('categorynews') }}">Categories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('viewnewsuser') }}">All News</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('Logout') }}">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+<br>
+  <br>
+  <br>
+  <br>
+  <!-- Page Content -->
+  <div class="welcome-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <h2>Welcome, {{ username }}!</h2>
+          <p>Explore the latest news from various sources, find news by category, or search for specific topics.</p>
+        </div>
+        <div class="col-md-4">
+          <form action="{{ url_for('search') }}" method="POST" class="search-form">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search news..." name="search_query" required>
+              <div class="input-group-append">
+                <button class="btn btn-danger" type="submit">
+                  <i class="fas fa-search"></i> Search
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Banner Carousel -->
+  <div class="banner header-text">
+    <div class="owl-banner owl-carousel">
+      <div class="banner-item-01">
+        <div class="text-content">
+          <center>
+          <h4>Breaking News</h4>
+          <h2>Stay updated with the latest headlines</h2>
+          </center>
+        </div>
+      </div>
+      <div class="banner-item-02">
+        <div class="text-content">
+          <h4>Top Stories</h4>
+          <h2>Explore the most important news of the day</h2>
+        </div>
+      </div>
+      <div class="banner-item-03">
+        <div class="text-content">
+          <h4>Global Insights</h4>
+          <h2>Understand what's happening around the world</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Latest News Section with fixes -->
+  <div class="latest-products">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-heading">
+            <h2>Latest News</h2>
+            <a href="{{ url_for('viewnewsuser') }}">View all news <i class="fa fa-angle-right"></i></a>
+          </div>
+        </div>
+
+        {% if latest_news %}
+          {% for news in latest_news %}
+          <div class="col-md-4">
+            <div class="news-card">
+              <div class="position-relative">
+                {% if news[5] and 'example.com' not in news[5] %}
+                  <img class="news-img" src="{{ news[5] }}" alt="{{ news[2] }}" onerror="this.src='static/assets/images/news-placeholder.jpg'">
+                {% else %}
+                  <img class="news-img" src="static/assets/images/news-placeholder.jpg" alt="News Image">
+                {% endif %}
+                <span class="category-badge">{{ news[7] }}</span>
+                <span class="news-source">{{ news[1] }}</span>
+              </div>
+              <div class="p-3">
+                <h3 class="news-title">{{ news[2] }}</h3>
+                <p class="news-date">{{ news[6].strftime('%B %d, %Y') }}</p>
+                {% if news[3] %}
+                <p class="news-desc">{{ news[3][:100] if news[3]|length > 100 else news[3] }}{% if news[3]|length > 100 %}...{% endif %}</p>
+                {% else %}
+                <p class="news-desc">No description available</p>
+                {% endif %}
+                <a href="{{ url_for('news_detail', source_type='api', news_id=news[0]) }}" class="filled-button">Read More</a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <div class="col-md-12">
+            <div class="alert alert-info">No news articles available at the moment.</div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Categories Section -->
+  <div class="best-features">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="section-heading">
+          <h2>Popular Categories</h2>
+        </div>
+      </div>
+      {% if top_categories %}
+        {% for category in top_categories %}
+        <div class="col-md-4">
+          <div class="category-box">
+            <a href="{{ url_for('getcategory', category=category[0]) }}">
+              <h4 style="color: white !important;">{{ category[0] }}</h4>
+              <p style="color: white !important;">{{ category[1] }} articles</p>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="col-md-12">
+          <div class="alert alert-info">No categories available.</div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="inner-content">
+            <p>Copyright &copy; 2025 News Sphere - All Rights Reserved</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="static/vendor/jquery/jquery.min.js"></script>
+  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Additional Scripts -->
+  <script src="static/assets/js/custom.js"></script>
+  <script src="static/assets/js/owl.js"></script>
+  <script src="static/assets/js/slick.js"></script>
+  <script src="static/assets/js/isotope.js"></script>
+  <script src="static/assets/js/accordions.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      // Show success or error messages with fade effect
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            var alertClass = "{{ category }}";
+            if (alertClass == "error") alertClass = "danger";
+
+            var alertHtml = '<div class="alert alert-' + alertClass + ' alert-dismissible fade show" role="alert">' +
+                            '{{ message }}' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                            '<span aria-hidden="true">&times;</span></button></div>';
+
+            $('.welcome-section .container').prepend(alertHtml);
+
+            // Auto-dismiss after 5 seconds
+            setTimeout(function() {
+              $('.alert').alert('close');
+            }, 5000);
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    });
+  </script>
+</body>
+</html>

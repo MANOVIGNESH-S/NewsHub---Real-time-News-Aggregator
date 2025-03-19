@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="assets/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+  <title>Personalized News Feed</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Additional CSS Files -->
+  <link rel="stylesheet" href="static/assets/css/fontawesome.css">
+  <link rel="stylesheet" href="static/assets/css/style.css">
+  <link rel="stylesheet" href="static/assets/css/owl.css">
+
+  <style type="text/css">
+    /* Change the header background color */
+    .navbar {
+      background-color: #1F2669;  /* Blue color */
+    }
+    .style3 {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 18px;
+    }
+    .api-news-section {
+      padding: 30px 0;
+    }
+    .news-card {
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .news-source {
+      font-weight: bold;
+      color: #1F2669;
+    }
+    .fetch-btn {
+      background-color: #1F2669;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+    .news-stats {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href=" "><h2>Personalized News Feed</h2></a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ url_for('.adminhome') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('.uploadnews') }}">News Aggregation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('.viewnews') }}">View news details</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('.login') }}">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Banner -->
+  <div class="banner header-text">
+    <div class="owl-banner owl-carousel">
+      <div class="banner-item-01">
+        <div class="text-content">
+          <h4>News Management Dashboard</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Welcome Section -->
+  <div class="best-features">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-heading">
+            <h2>Welcome: Admin</h2>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="left-content">
+            <p>Manage news content and fetch articles from popular news sources.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="right-image">
+            <img src="static/1.jpg" alt="" width="100%" height="auto">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News API Section -->
+  <div class="api-news-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-heading">
+            <h2>Fetch Latest News</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="news-stats">
+            <h4>Current News Statistics</h4>
+            <p>Total news articles: <strong>{{ news_count }}</strong></p>
+            <p>Last fetched: <strong>{{ last_fetched }}</strong></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <form action="{{ url_for('fetch_cnn_news') }}" method="post">
+            <button type="submit" class="fetch-btn">Fetch CNN News</button>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <form action="{{ url_for('fetch_ndtv_news') }}" method="post">
+            <button type="submit" class="fetch-btn">Fetch NDTV News</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h4>Recently Fetched News</h4>
+          {% if recent_news %}
+            {% for news in recent_news %}
+              <div class="news-card">
+                <span class="news-source">{{ news[1] }}</span>
+                <h5>{{ news[2] }}</h5>
+                <p>{{ news[3] }}</p>
+                <p>Category: {{ news[7] }} | Published: {{ news[6] }}</p>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p>No recent news has been fetched. Click on the buttons above to get the latest articles.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="inner-content">
+            <p>© 2025 Personalized News Feed - All Rights Reserved</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="static/vendor/jquery/jquery.min.js"></script>
+  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Additional Scripts -->
+  <script src="static/assets/js/custom.js"></script>
+  <script src="static/assets/js/owl.js"></script>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <script>
+          alert("{{ message }}");
+        </script>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</body>
+</html>
