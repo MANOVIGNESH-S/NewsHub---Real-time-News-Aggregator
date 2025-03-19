@@ -1,3 +1,15 @@
+![image](https://github.com/user-attachments/assets/b7b13702-e0a0-4fa1-9afe-9564790ccfca)
+![image](https://github.com/user-attachments/assets/4ea8c7a8-61ef-4df8-b9aa-799eb2a5ed0b)
+![image](https://github.com/user-attachments/assets/559003f7-c880-47ae-8078-04b162dc496b)
+![image](https://github.com/user-attachments/assets/84968b1f-96af-410d-a116-ef2ec505260d)
+
+
+![image](https://github.com/user-attachments/assets/7240f3de-3719-4fdc-a650-bcfc257c8695)
+![image](https://github.com/user-attachments/assets/26d71e25-71ae-4f87-9594-e35836735110)
+![image](https://github.com/user-attachments/assets/f43bbbd2-803a-455a-bc5a-0a1eb08fda60)
+
+
+
 NewsHub - Real-time News Aggregator
 
 NewsHub is a comprehensive news aggregation platform that fetches news from multiple sources and displays them in a user-friendly interface. The application uses the News API to gather the latest headlines and articles from various news providers, categorizes them, and presents them in an organized manner.
